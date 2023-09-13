@@ -1,0 +1,13 @@
+/dist/*
+.local
+/node_modules/**
+.helm/**
+.gitlab-ci.yml
+.travis.yml
+Dockerfile
+
+**/*.svg
+**/*.sh
+
+/public/*
+/rollup.config.ts

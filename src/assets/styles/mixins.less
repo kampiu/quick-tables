@@ -1,0 +1,25 @@
+// 按钮主题颜色
+.buttonTheme(@buttonBackgroundColor) {
+	background-color: @buttonBackgroundColor;
+
+	&:hover,
+	&:focus {
+		border-color: @buttonBackgroundColor;
+	}
+}
+
+// 字体超出几行换行
+.fontEllipsis(@lineHeight: 14px, @line: 1) {
+	display: box;
+	overflow: hidden;
+	line-height: @lineHeight;
+	text-overflow: ellipsis;
+	word-break: break-word;
+	-webkit-line-clamp: @line;
+	-webkit-box-orient: vertical;
+}
+
+.commonPageContainer() {
+	border-radius: @container-border-radius;
+	overflow: hidden;
+}

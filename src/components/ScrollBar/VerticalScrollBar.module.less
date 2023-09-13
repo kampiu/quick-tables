@@ -1,0 +1,49 @@
+.scroll-container {
+	position: absolute;
+	will-change: transform;
+	cursor: pointer;
+	top: 0;
+	right: 2px;
+	width: 12px;
+	background: transparent;
+	overflow: auto;
+	z-index: 800;
+
+	&::-webkit-scrollbar {
+		width: 10px;
+		height: 10px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: transparent !important;
+	}
+
+	&::-webkit-scrollbar-button {
+		display: none;
+		height: 0;
+		width: 0;
+		background-color: transparent !important;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: transparent !important;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-clip: padding-box;
+		border-radius: 8px;
+		min-height: 36px;
+		background-color: #E0E0E0 !important;
+	}
+
+	.scroll-bar {
+		width: 1px;
+		background-color: transparent;
+	}
+
+	div, canvas {
+		outline: none !important;
+	}
+}

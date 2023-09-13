@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["server", "vite.config.ts", ".eslintrc.js", ".prettierrc.js", ".stylelintrc.js", "src/**/*.module.less"]
+}
