@@ -49,7 +49,6 @@ export default function WrapText(ctx: Context, evt: WrapTextOptions) {
 		maxRow = 1,
 		fontSize = 14,
 		fillStyle = Color.text,
-		textAlign = "left",
 		verticalAlign = "top",
 		fontWeight = "normal",
 		textDecoration = "none",
@@ -68,7 +67,6 @@ export default function WrapText(ctx: Context, evt: WrapTextOptions) {
 	let byteOffsetY = y // 字节Y轴偏移
 	let line = 1
 
-	// ctx.textAlign = textAlign
 	setStyle(ctx, { fillStyle, fontWeight, fontSize })
 
 	// 先计算字符串总宽度，如果小于最大宽度则直接渲染

@@ -1,14 +1,14 @@
-import React, { useRef, memo, useEffect } from "react"
-import { Stage, Layer, Rect, Shape, Group } from "react-konva"
+import React, {useRef, memo, useEffect} from "react"
+import {Stage, Layer, Rect, Shape, Group} from "react-konva"
 import type Konva from "konva"
-import { useMemoizedFn } from "ahooks"
-import { VerticalScrollBar, HorizontalScrollBar } from "@/components/ScrollBar"
+import {useMemoizedFn} from "ahooks"
+import {VerticalScrollBar, HorizontalScrollBar} from "@/components/ScrollBar"
 import useColumns from "@/SpeedTable/hooks/useColumns"
 import useDataSource from "@/SpeedTable/hooks/useDataSource"
 import styles from "./SpeedTable.module.less"
 import useScroller from "./hooks/useScroller"
 import ScrollProvider from "./context/Scroller"
-import type { Column } from "./types"
+import type {Column} from "./types"
 
 export interface SpeedTableProps<ColumnValue extends Record<string, any>> {
 	width: number
@@ -18,15 +18,15 @@ export interface SpeedTableProps<ColumnValue extends Record<string, any>> {
 }
 
 function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
-	const { width: tableWidth, height: tableHeight } = props
+	const {width: tableWidth, height: tableHeight} = props
 
 	const StageRef = useRef<Konva.Stage>(null)
 
-	const { columns, allColumnsWidth } = useColumns({ columns: props?.columns })
-	const { dataSource, allDataSourceHeight } = useDataSource({ dataSource: props?.dataSource})
+	const {columns, allColumnsWidth} = useColumns({columns: props?.columns})
+	const {dataSource, allDataSourceHeight} = useDataSource({dataSource: props?.dataSource})
 
 	/** 滚动元数据  */
-	const { scrollState, isScrolling, onHorizontalScroll, onVerticalScroll } = useScroller({
+	const {scrollState, isScrolling, onHorizontalScroll, onVerticalScroll} = useScroller({
 		maxScrollHeight: allDataSourceHeight - tableHeight,
 		maxScrollWidth: allColumnsWidth - tableWidth,
 	})
@@ -40,7 +40,7 @@ function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
 		event.preventDefault()
 
 		if (wheelingRef.current) return
-		const { deltaX, deltaY } = event
+		const {deltaX, deltaY} = event
 
 		const StepY = 360
 		const StepX = 360
@@ -85,34 +85,34 @@ function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
 		<div
 			className={styles.table}
 			ref={ScrollContainerRef}
-			style={{ width: tableWidth, height: tableHeight }}
+			style={{width: tableWidth, height: tableHeight}}
 		>
 			<Stage width={tableWidth} height={tableHeight} ref={StageRef} listening={!isScrolling}>
 				<ScrollProvider scrollStore={scrollState}>
 					<Layer>
-						<Rect x={10} y={10} width={100} height={100} fill="pink" />
+						<Rect x={10} y={10} width={100} height={100} fill="pink"/>
 						<Group offsetY={scrollState.y} offsetX={scrollState.x}>
-							<Rect x={100} y={100} width={100} height={100} fill="skyblue" />
+							<Rect x={100} y={100} width={100} height={100} fill="skyblue"/>
 							<Shape
 								sceneFunc={(context, shape) => {
 									context.beginPath()
 									context.strokeStyle = "rgba(15,23,42, 0.5)"
 									// 横线
 									for (
-										let i = 0, rowCount = dataSource.length;
-										i < rowCount;
-										i++
+										let recordIndex = 0, recordCount = dataSource.length;
+										recordIndex < recordCount;
+										recordIndex++
 									) {
 										// 顶部线
 										const HeaderLineStartPoint = 0
 										const HeaderLineEndPoint = tableWidth
 										context.moveTo(
 											scrollState.x + HeaderLineStartPoint,
-											i * 32 + 0.5,
+											recordIndex * 32 + 0.5,
 										)
 										context.lineTo(
 											scrollState.x + HeaderLineEndPoint,
-											i * 32 + 0.5,
+											recordIndex * 32 + 0.5,
 										)
 									}
 
@@ -123,7 +123,6 @@ function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
 									) {
 										const HeaderLineStartPoint = 0
 										const HeaderLineEndPoint = tableHeight
-										context.fillText("byte", scrollState.y + 200 * i, 200)
 										context.moveTo(
 											i * 200 + 0.5,
 											scrollState.y + HeaderLineStartPoint,
@@ -134,6 +133,21 @@ function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
 										)
 									}
 									context.stroke()
+
+
+									for (
+										let recordIndex = 0, recordCount = dataSource.length;
+										recordIndex < recordCount;
+										recordIndex++
+									) {
+										for (
+											let columnIndex = 0, columnCount = columns.length;
+											columnIndex < columnCount;
+											columnIndex++
+										) {
+											context.fillText("byte", columns[columnIndex].x + 10, dataSource[recordIndex].y - 10)
+										}
+									}
 
 									context.closePath()
 									context.strokeShape(shape)
@@ -146,13 +160,11 @@ function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
 			<VerticalScrollBar
 				ref={verticalScrollRef}
 				onVerticalScroll={onVerticalScroll}
-				height={tableHeight}
 				maxHeight={allDataSourceHeight}
 			/>
 			<HorizontalScrollBar
 				ref={horizontalScrollRef}
 				onHorizontalScroll={onHorizontalScroll}
-				width={tableWidth}
 				maxWidth={allColumnsWidth}
 			/>
 		</div>

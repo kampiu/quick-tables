@@ -1,5 +1,5 @@
 // 获取字符串16进制
-function getWholeChar(str: string, i: number) {
+function getWholeChar(str: string, i: number): string | false {
 	const code = str.charCodeAt(i)
 
 	if (isNaN(code)) {
@@ -40,17 +40,16 @@ function getWholeChar(str: string, i: number) {
  * @param {string} textString
  * @return {Array<*>}
  */
-export function graphemeSplit(textString: string) {
+export function graphemeSplit(textString: string): Array<string> {
 	let i = 0
 	let chr = null
-	const graphemes = []
+	const graphemes: Array<string> = []
 	for (i = 0, chr; i < textString.length; i++) {
 		chr = getWholeChar(textString, i)
 		const result = chr
-		if (result === false) {
-			continue
+		if (result) {
+			graphemes.push(result)
 		}
-		graphemes.push(chr)
 	}
 	return graphemes
 }

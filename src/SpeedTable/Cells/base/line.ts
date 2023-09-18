@@ -3,8 +3,11 @@ import type { Context } from "konva/lib/Context"
 export interface LineOptions {
 	x: number
 	y: number
-	width: number
-	height: number
+	width?: number
+	height?: number
+	points: Array<number>
+	closed?: boolean
+	stroke?: string
 }
 
 export default function Line(ctx: Context, evt: LineOptions) {
@@ -23,7 +26,9 @@ export default function Line(ctx: Context, evt: LineOptions) {
 		ctx.lineTo(points[l], points[l + 1])
 	}
 
-	closed && ctx.closePath()
+	if (closed) {
+		ctx.closePath()
+	}
 	ctx.stroke()
 	ctx.restore()
 }
