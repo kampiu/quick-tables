@@ -28,7 +28,7 @@ export default function useColumns(props: ColumnsHookProps) {
 	}, [props?.columns])
 
 	const allColumnsWidth: number = useMemo(
-		() => columns.reduce((result, item) => result + item.width, 0),
+		() => columns.reduce((result, column) => result + column.width, 0),
 		[columns],
 	)
 

@@ -1,9 +1,10 @@
-import React, { useRef, memo, useMemo, useEffect } from "react"
+import React, { useRef, memo, useEffect } from "react"
 import { Stage, Layer, Rect, Shape, Group } from "react-konva"
 import type Konva from "konva"
 import { useMemoizedFn } from "ahooks"
 import { VerticalScrollBar, HorizontalScrollBar } from "@/components/ScrollBar"
 import useColumns from "@/SpeedTable/hooks/useColumns"
+import useDataSource from "@/SpeedTable/hooks/useDataSource"
 import styles from "./SpeedTable.module.less"
 import useScroller from "./hooks/useScroller"
 import ScrollProvider from "./context/Scroller"
@@ -17,16 +18,16 @@ export interface SpeedTableProps<ColumnValue extends Record<string, any>> {
 }
 
 function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
-	const { width: tableWidth, height: tableHeight, dataSource = [] } = props
+	const { width: tableWidth, height: tableHeight } = props
 
-	const { columns, allColumnsWidth } = useColumns({ columns: props?.columns })
 	const StageRef = useRef<Konva.Stage>(null)
 
-	const MaxTableHeight = useMemo(() => dataSource.length * 32, [dataSource.length])
+	const { columns, allColumnsWidth } = useColumns({ columns: props?.columns })
+	const { dataSource, allDataSourceHeight } = useDataSource({ dataSource: props?.dataSource})
 
 	/** 滚动元数据  */
 	const { scrollState, isScrolling, onHorizontalScroll, onVerticalScroll } = useScroller({
-		maxScrollHeight: MaxTableHeight - tableHeight,
+		maxScrollHeight: allDataSourceHeight - tableHeight,
 		maxScrollWidth: allColumnsWidth - tableWidth,
 	})
 
@@ -146,7 +147,7 @@ function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
 				ref={verticalScrollRef}
 				onVerticalScroll={onVerticalScroll}
 				height={tableHeight}
-				maxHeight={MaxTableHeight}
+				maxHeight={allDataSourceHeight}
 			/>
 			<HorizontalScrollBar
 				ref={horizontalScrollRef}
