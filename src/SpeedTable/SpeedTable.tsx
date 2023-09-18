@@ -3,15 +3,11 @@ import { Stage, Layer, Rect, Shape, Group } from "react-konva"
 import type Konva from "konva"
 import { useMemoizedFn } from "ahooks"
 import { VerticalScrollBar, HorizontalScrollBar } from "@/components/ScrollBar"
+import useColumns from "@/SpeedTable/hooks/useColumns"
 import styles from "./SpeedTable.module.less"
 import useScroller from "./hooks/useScroller"
 import ScrollProvider from "./context/Scroller"
-
-export interface Column {
-	width: number
-	title: string
-	type?: "text" | "number" | "select"
-}
+import type { Column } from "./types"
 
 export interface SpeedTableProps<ColumnValue extends Record<string, any>> {
 	width: number
@@ -21,21 +17,17 @@ export interface SpeedTableProps<ColumnValue extends Record<string, any>> {
 }
 
 function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
-	const { width: tableWidth, height: tableHeight, dataSource = [], columns = [] } = props
+	const { width: tableWidth, height: tableHeight, dataSource = [] } = props
 
+	const { columns, allColumnsWidth } = useColumns({ columns: props?.columns })
 	const StageRef = useRef<Konva.Stage>(null)
 
 	const MaxTableHeight = useMemo(() => dataSource.length * 32, [dataSource.length])
 
-	const MaxTableWidth = useMemo(
-		() => columns.reduce((result, item) => result + item.width, 0) - 10,
-		[columns, tableWidth],
-	)
-
 	/** 滚动元数据  */
 	const { scrollState, isScrolling, onHorizontalScroll, onVerticalScroll } = useScroller({
 		maxScrollHeight: MaxTableHeight - tableHeight,
-		maxScrollWidth: MaxTableWidth - tableWidth,
+		maxScrollWidth: allColumnsWidth - tableWidth,
 	})
 
 	const ScrollContainerRef = useRef<HTMLDivElement>(null)
@@ -130,6 +122,7 @@ function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
 									) {
 										const HeaderLineStartPoint = 0
 										const HeaderLineEndPoint = tableHeight
+										context.fillText("byte", scrollState.y + 200 * i, 200)
 										context.moveTo(
 											i * 200 + 0.5,
 											scrollState.y + HeaderLineStartPoint,
@@ -159,7 +152,7 @@ function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
 				ref={horizontalScrollRef}
 				onHorizontalScroll={onHorizontalScroll}
 				width={tableWidth}
-				maxWidth={MaxTableWidth}
+				maxWidth={allColumnsWidth}
 			/>
 		</div>
 	)
