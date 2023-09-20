@@ -97,8 +97,14 @@ const ChartWidthMapping: Record<string, number> = {
 	"|": 3.47265625,
 }
 
-const getByteWidth = (ctx: Context, byte: string) => {
+/**
+ * @description 获取字体宽度
+ * @param {Context} ctx Canvas上下文
+ * @param {string} byte 字符
+ */
+const getByteWidth = (ctx: Context, byte: string): number => {
 	if (!ChartWidthMapping[byte]) {
+		// 写入缓存，方便相同的字符不用重复计算
 		ChartWidthMapping[byte] = ctx.measureText(byte)?.width || 14
 	}
 	return ChartWidthMapping[byte]

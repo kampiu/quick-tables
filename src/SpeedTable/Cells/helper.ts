@@ -41,14 +41,11 @@ function getWholeChar(str: string, i: number): string | false {
  * @return {Array<*>}
  */
 export function graphemeSplit(textString: string): Array<string> {
-	let i = 0
-	let chr = null
 	const graphemes: Array<string> = []
-	for (i = 0, chr; i < textString.length; i++) {
+	for (let i = 0, chr; i < textString.length; i++) {
 		chr = getWholeChar(textString, i)
-		const result = chr
-		if (result) {
-			graphemes.push(result)
+		if (chr) {
+			graphemes.push(chr)
 		}
 	}
 	return graphemes

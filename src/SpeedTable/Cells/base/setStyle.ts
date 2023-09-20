@@ -1,17 +1,28 @@
-import type { Context } from "konva/lib/Context"
-import { Font } from "../constans"
+import type {Context} from "konva/lib/Context"
+import {Font} from "./types"
 
-export default function setStyle(ctx: Context, evt) {
-	const fontWeight = evt.fontWeight || "normal"
-	const fontSize = evt.fontSize || 14
+export interface SetStyleProps {
+	/** 字体粗细 */
+	fontWeight?: Font.FontWeight
+	/** 字号大小 */
+	fontSize?: number
+	/** 填充的颜色 */
+	fillStyle?: string
+	/** 线段颜色 */
+	strokeStyle?: string
+}
 
-	ctx.font = "".concat(fontWeight, " ").concat(fontSize, "px ").concat(Font)
+export default function setStyle(ctx: Context, props: SetStyleProps) {
+	const fontWeight = props?.fontWeight || "normal"
+	const fontSize = props?.fontSize || 14
 
-	if (evt.fillStyle) {
-		ctx.fillStyle = evt.fillStyle
+	ctx.font = "".concat(`${fontWeight}`, " ").concat(`${fontSize}`, "px ").concat(Font.FontFamily)
+
+	if (props.fillStyle) {
+		ctx.fillStyle = props.fillStyle
 	}
 
-	if (evt.strokeStyle) {
-		ctx.strokeStyle = evt.strokeStyle
+	if (props.strokeStyle) {
+		ctx.strokeStyle = props.strokeStyle
 	}
 }

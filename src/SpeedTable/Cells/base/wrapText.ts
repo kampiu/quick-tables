@@ -1,9 +1,10 @@
-import type { Context } from "konva/lib/Context"
-import { Color } from "../constans"
-import { graphemeSplit } from "../helper"
+import type {Context} from "konva/lib/Context"
+import {Color} from "../constans"
+import {graphemeSplit} from "../helper"
 import Line from "./line"
 import setStyle from "./setStyle"
 import getByteWidth from "./byteWidthCache"
+import type {Font} from "./types";
 
 /**
  * 单元格 元数据
@@ -16,19 +17,33 @@ import getByteWidth from "./byteWidthCache"
  */
 
 export interface WrapTextOptions {
+	/** 单元格X坐标 */
 	x: number
+	/** 单元格Y坐标 */
 	y: number
+	/** 单元格宽度 */
 	width: number
+	/** 单元格高度 */
 	height: number
+	/** 单元格所占最大宽度 */
 	maxWidth: number
+	/** 绘制的文本内容 */
 	text: string
+	/** 行高 */
 	lineHeight: number
+	/** 文本内容绘制最大行数 */
 	maxRow: number
+	/** 字号大小 */
 	fontSize: number
+	/** 字体颜色 */
 	fillStyle: string
+	/** 字体内容左右排版 */
 	textAlign: string
+	/** 字体内容上下排版 */
 	verticalAlign: string
-	fontWeight: number
+	/** 字体粗细 */
+	fontWeight: Font.FontWeight
+	/** 字体下划线描述 */
 	textDecoration: string
 }
 
@@ -67,7 +82,7 @@ export default function WrapText(ctx: Context, evt: WrapTextOptions) {
 	let byteOffsetY = y // 字节Y轴偏移
 	let line = 1
 
-	setStyle(ctx, { fillStyle, fontWeight, fontSize })
+	setStyle(ctx, {fillStyle, fontWeight, fontSize})
 
 	// 先计算字符串总宽度，如果小于最大宽度则直接渲染
 	const str = textMeta.join("").replaceAll(/[\n\r]/g, " ")

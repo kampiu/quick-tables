@@ -1,12 +1,15 @@
 import type { Context } from "konva/lib/Context"
 
 export interface LineOptions {
+	/** X坐标 */
 	x: number
+	/** Y坐标 */
 	y: number
-	width?: number
-	height?: number
+	/** 线段经过的坐标点（[x1, y1, x2, y2]） */
 	points: Array<number>
+	/** 是否需要关闭 */
 	closed?: boolean
+	/** 线段样式 */
 	stroke?: string
 }
 
