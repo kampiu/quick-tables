@@ -38,7 +38,7 @@ export interface WrapTextOptions {
 	/** 字体颜色 */
 	fillStyle: string
 	/** 字体内容左右排版 */
-	textAlign: string
+	textAlign: Font.TextAlign
 	/** 字体内容上下排版 */
 	verticalAlign: string
 	/** 字体粗细 */

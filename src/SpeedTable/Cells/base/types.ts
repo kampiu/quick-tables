@@ -15,13 +15,16 @@ export namespace Font {
 		| 700
 		| 800
 		| 900
-		| 'normal'
-		| 'bold'
-		| 'bolder'
-		| 'lighter'
-		| 'initial'
-		| 'inherit'
-		| 'unset'
-		| 'revert'
+		| "normal"
+		| "bold"
+		| "bolder"
+		| "lighter"
+		| "initial"
+		| "inherit"
+		| "unset"
+		| "revert"
+
+	/** 字体内容左右排版 */
+	export type TextAlign = CanvasTextAlign
 
 }

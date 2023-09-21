@@ -7,9 +7,9 @@ export interface SetStyleProps {
 	/** 字号大小 */
 	fontSize?: number
 	/** 填充的颜色 */
-	fillStyle?: string
+	fillStyle?: string | CanvasGradient | CanvasPattern
 	/** 线段颜色 */
-	strokeStyle?: string
+	strokeStyle?: string | CanvasGradient | CanvasPattern
 }
 
 export default function setStyle(ctx: Context, props: SetStyleProps) {
