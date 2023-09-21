@@ -1,7 +1,8 @@
 import {useMemo} from "react";
+import type {QuickTable} from "../types"
 
 export interface DataSourceHookProps {
-	dataSource: Array<Record<string, any>>
+	dataSource: Array<QuickTable.TableRecord>
 }
 
 export default function useDataSource(props: DataSourceHookProps) {

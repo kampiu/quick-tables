@@ -1,8 +1,8 @@
 import { useMemo } from "react"
-import type { Column } from "../types"
+import type { QuickTable } from "../types"
 
 export interface ColumnsHookProps {
-	columns: Array<Column>
+	columns: Array<QuickTable.TableColumn>
 }
 
 export default function useColumns(props: ColumnsHookProps) {

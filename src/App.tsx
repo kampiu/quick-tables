@@ -1,12 +1,12 @@
 import React from "react"
-import SpeedTable from "@/SpeedTable"
+import QuickTable from "./QuickTable"
 import DataSource from "./dataSourceMock"
 import Columns from "./columnsMock"
 
 function App() {
 	return (
 		<div>
-			<SpeedTable
+			<QuickTable
 				width={800}
 				height={800}
 				dataSource={DataSource}

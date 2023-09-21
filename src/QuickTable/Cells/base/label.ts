@@ -1,5 +1,5 @@
 import type {Context} from "konva/lib/Context";
-import type {Font} from "@/SpeedTable/Cells/base/types";
+import type {Font} from "@/QuickTable/Cells/base/types";
 import {Color} from "../constans"
 import Rect from "./rect"
 import Text from "./text"

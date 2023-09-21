@@ -1,13 +1,13 @@
-import { createUnionKey } from "@/utils"
+import {createUnionKey} from "@/utils"
+import type {QuickTable} from "./QuickTable"
 
-export type DataItem = Record<string, string | number>
-
-const DataSource: Array<DataItem> = Array.from({ length: 200 }, (i, j) => {
-	const item: Record<string, number | string> = {
+const DataSource: Array<QuickTable.TableRecord> = Array.from({length: 200}, (i, j) => {
+	const item: QuickTable.TableRecord = {
 		id: createUnionKey(),
 	}
-	Array.from({ length: 20 }, (ii, jj) => {
-		item[`key_${jj}`] = `${jj * j}`
+	// 有序生成20列对应的行数据
+	Array.from({length: 20}, (ii, jj) => {
+		item[`id_${j}`] = `${jj * j}`
 		return ii
 	})
 

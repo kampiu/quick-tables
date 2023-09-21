@@ -3,27 +3,27 @@ import {Stage, Layer, Rect, Shape, Group} from "react-konva"
 import type Konva from "konva"
 import {useMemoizedFn} from "ahooks"
 import {VerticalScrollBar, HorizontalScrollBar} from "@/components/ScrollBar"
-import useColumns from "@/SpeedTable/hooks/useColumns"
-import useDataSource from "@/SpeedTable/hooks/useDataSource"
-import styles from "./SpeedTable.module.less"
+import useColumns from "@/QuickTable/hooks/useColumns"
+import useDataSource from "@/QuickTable/hooks/useDataSource"
+import styles from "./QuickTable.module.less"
 import useScroller from "./hooks/useScroller"
 import ScrollProvider from "./context/Scroller"
-import type {Column} from "./types"
+import type {QuickTable} from "./types"
 
-export interface SpeedTableProps<ColumnValue extends Record<string, any>> {
+export interface QuickTableProps {
 	width: number
 	height: number
-	dataSource: Array<ColumnValue>
-	columns: Array<Column>
+	dataSource: Array<QuickTable.TableRecord>
+	columns: Array<QuickTable.TableColumn>
 }
 
-function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
+function Table(props: QuickTableProps) {
 	const {width: tableWidth, height: tableHeight} = props
 
 	const StageRef = useRef<Konva.Stage>(null)
 
-	const {columns, allColumnsWidth} = useColumns({columns: props?.columns})
-	const {dataSource, allDataSourceHeight} = useDataSource({dataSource: props?.dataSource})
+	const {columns, allColumnsWidth} = useColumns({columns: props?.columns || []})
+	const {dataSource, allDataSourceHeight} = useDataSource({dataSource: props?.dataSource || []})
 
 	/** 滚动元数据  */
 	const {scrollState, isScrolling, onHorizontalScroll, onVerticalScroll} = useScroller({
@@ -171,4 +171,4 @@ function SpeedTable<ColumnValue>(props: SpeedTableProps<ColumnValue>) {
 	)
 }
 
-export default memo(SpeedTable)
+export default memo(Table)

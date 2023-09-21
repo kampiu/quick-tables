@@ -9,10 +9,7 @@ export const ScrollerState: IScrollerStore = {
 	y: 0,
 }
 
-/**
- * 滚动重置时间
- * @type {number}
- */
+/** 滚动重置时间 */
 const RESET_SCROLL_EVENTS_DEBOUNCE_INTERVAL = 300
 
 interface ScrollerHookProps {
@@ -27,13 +24,17 @@ function useScroller({ maxScrollHeight, maxScrollWidth }: ScrollerHookProps) {
 
 	const resetIsScrollingTimeoutID = useRef<TimeoutID | null>({} as null | TimeoutID)
 
-	/** 重置滚动状态 */
+	/**
+	 * @description 重置滚动状态
+	 */
 	const resetIsScrolling = useMemoizedFn(() => {
 		resetIsScrollingTimeoutID.current = null
 		setScrolling(false)
 	})
 
-	/** 重置滚动方法 */
+	/**
+	 * @description 重置滚动方法
+	 */
 	const resetIsScrollingDebounced = useMemoizedFn(() => {
 		if (resetIsScrollingTimeoutID.current !== null) {
 			cancelTimeout(resetIsScrollingTimeoutID.current)
@@ -51,8 +52,7 @@ function useScroller({ maxScrollHeight, maxScrollWidth }: ScrollerHookProps) {
 	})
 
 	/**
-	 * Y轴滚动
-	 * @type {(function(*): void)|*}
+	 * @description Y轴滚动
 	 */
 	const onVerticalScroll = useCallback(
 		(scrollY: number) => {
@@ -68,8 +68,7 @@ function useScroller({ maxScrollHeight, maxScrollWidth }: ScrollerHookProps) {
 	)
 
 	/**
-	 * X轴滚动
-	 * @type {(function(*): void)|*}
+	 * @description X轴滚动
 	 */
 	const onHorizontalScroll = useCallback(
 		(scrollX: number) => {
