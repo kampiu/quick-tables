@@ -10,6 +10,7 @@ import styles from "./QuickTable.module.less"
 import useScroller from "./hooks/useScroller"
 import ScrollProvider from "./context/Scroller"
 import useScrollColumns from "./hooks/useScrollColumns"
+import useScrollDataSource from "./hooks/useScrollDataSource"
 import type {QuickTable} from "./types"
 
 export interface QuickTableProps {
@@ -34,7 +35,8 @@ function Table(props: QuickTableProps) {
 	})
 
 	/** 当前区域显示的列 */
-	const { scrollColumns } = useScrollColumns({columns, tableWidth, scrollStateX: scrollState.x})
+	const {scrollColumns} = useScrollColumns({columns, tableWidth, scrollStateX: scrollState.x})
+	const { scrollDataSource } = useScrollDataSource({ dataSource, tableHeight, scrollStateY: scrollState.y })
 
 	const ScrollContainerRef = useRef<HTMLDivElement>(null)
 	const wheelingRef = useRef<number | null>(null)
@@ -85,7 +87,6 @@ function Table(props: QuickTableProps) {
 			el?.removeEventListener("wheel", handleWheel)
 		}
 	}, [])
-
 
 	const onClick = useCallback(() => {
 		console.log("@")
@@ -154,7 +155,7 @@ function Table(props: QuickTableProps) {
 											columnIndex < columnCount;
 											columnIndex++
 										) {
-											context.fillText("byte", columns[columnIndex].x + 10, dataSource[recordIndex].y - 10)
+											context.fillText(`byte: ${recordIndex} ${columnIndex}`, columns[columnIndex].x + 10, dataSource[recordIndex].y - 10)
 										}
 									}
 

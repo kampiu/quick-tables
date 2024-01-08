@@ -25,7 +25,6 @@ export default function useScrollColumns({columns, scrollStateX, tableWidth}: Sc
 			for (let i = 0, len = columnsWidth.length; i < len; i++) {
 				const columnWidth = columnsWidth[i]
 				if (columnWidth > endScrollX) {
-					// scrollColumnsParams.push(columns[i])
 					break
 				}
 				if (_.inRange(columnWidth, startScrollX - (columns[i].width || 0), endScrollX)) {
