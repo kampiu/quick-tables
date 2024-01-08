@@ -1,13 +1,15 @@
-import React, {useRef, memo, useEffect} from "react"
+import React, {useRef, memo, useEffect, useCallback, useMemo} from "react"
 import {Stage, Layer, Rect, Shape, Group} from "react-konva"
 import type Konva from "konva"
 import {useMemoizedFn} from "ahooks"
 import {VerticalScrollBar, HorizontalScrollBar} from "@/components/ScrollBar"
 import useColumns from "@/QuickTable/hooks/useColumns"
 import useDataSource from "@/QuickTable/hooks/useDataSource"
+import _ from "lodash"
 import styles from "./QuickTable.module.less"
 import useScroller from "./hooks/useScroller"
 import ScrollProvider from "./context/Scroller"
+import useScrollColumns from "./hooks/useScrollColumns"
 import type {QuickTable} from "./types"
 
 export interface QuickTableProps {
@@ -30,6 +32,9 @@ function Table(props: QuickTableProps) {
 		maxScrollHeight: allDataSourceHeight - tableHeight,
 		maxScrollWidth: allColumnsWidth - tableWidth,
 	})
+
+	/** 当前区域显示的列 */
+	const { scrollColumns } = useScrollColumns({columns, tableWidth, scrollStateX: scrollState.x})
 
 	const ScrollContainerRef = useRef<HTMLDivElement>(null)
 	const wheelingRef = useRef<number | null>(null)
@@ -81,6 +86,11 @@ function Table(props: QuickTableProps) {
 		}
 	}, [])
 
+
+	const onClick = useCallback(() => {
+		console.log("@")
+	}, [])
+
 	return (
 		<div
 			className={styles.table}
@@ -90,9 +100,8 @@ function Table(props: QuickTableProps) {
 			<Stage width={tableWidth} height={tableHeight} ref={StageRef} listening={!isScrolling}>
 				<ScrollProvider scrollStore={scrollState}>
 					<Layer>
-						<Rect x={10} y={10} width={100} height={100} fill="pink"/>
 						<Group offsetY={scrollState.y} offsetX={scrollState.x}>
-							<Rect x={100} y={100} width={100} height={100} fill="skyblue"/>
+							<Rect x={100} y={100} width={100} height={100} fill="skyblue" onClick={onClick}/>
 							<Shape
 								sceneFunc={(context, shape) => {
 									context.beginPath()
