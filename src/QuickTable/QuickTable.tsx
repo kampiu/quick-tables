@@ -36,7 +36,7 @@ function Table(props: QuickTableProps) {
 
 	/** 当前区域显示的列 */
 	const {scrollColumns} = useScrollColumns({columns, tableWidth, scrollStateX: scrollState.x})
-	const { scrollDataSource } = useScrollDataSource({ dataSource, tableHeight, scrollStateY: scrollState.y })
+	const {scrollDataSource} = useScrollDataSource({dataSource, tableHeight, scrollStateY: scrollState.y})
 
 	const ScrollContainerRef = useRef<HTMLDivElement>(null)
 	const wheelingRef = useRef<number | null>(null)
@@ -88,9 +88,30 @@ function Table(props: QuickTableProps) {
 		}
 	}, [])
 
-	const onClick = useCallback(() => {
-		console.log("@")
+	const onClick = useCallback((params: any) => {
+		console.log(`当前点击第${(params?.dataSource?.index || 0) + 1}行、第${(params?.column?.index || 0) + 1}列`)
 	}, [])
+
+	const scrollCell: Array<any> = []
+
+	if (!isScrolling) {
+		for (let dataSourceIndex = 0, dataSourceCount = scrollDataSource.length; dataSourceIndex < dataSourceCount; dataSourceIndex++) {
+			for (let columnIndex = 0, columnCount = scrollColumns.length; columnIndex < columnCount; columnIndex++) {
+				scrollCell.push(
+					<Rect
+						x={scrollColumns[columnIndex].x || 0}
+						y={scrollDataSource[dataSourceIndex].y || 0}
+						width={scrollColumns[columnIndex].width || 0}
+						height={32}
+						onClick={() => onClick({
+							column: scrollColumns[columnIndex],
+							dataSource: scrollDataSource[dataSourceIndex],
+						})}
+					/>,
+				)
+			}
+		}
+	}
 
 	return (
 		<div
@@ -102,7 +123,7 @@ function Table(props: QuickTableProps) {
 				<ScrollProvider scrollStore={scrollState}>
 					<Layer>
 						<Group offsetY={scrollState.y} offsetX={scrollState.x}>
-							<Rect x={100} y={100} width={100} height={100} fill="skyblue" onClick={onClick}/>
+							{scrollCell}
 							<Shape
 								sceneFunc={(context, shape) => {
 									context.beginPath()

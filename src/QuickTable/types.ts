@@ -19,12 +19,16 @@ export namespace QuickTable {
 		width?: number
 		/** 列排序下标 */
 		index?: number
+		/** X轴位置 */
+		x?: number
 	}
 
 	/** 表格 - 行类型 */
 	export interface TableRecord {
 		/** 行ID */
 		id: string
+		/** Y轴位置 */
+		y?: number
 
 		/** 行数据 */
 		[key: string]: any
